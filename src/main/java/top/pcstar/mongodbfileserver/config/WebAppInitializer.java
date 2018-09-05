@@ -1,0 +1,53 @@
+package top.pcstar.mongodbfileserver.config;
+
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.*;
+import java.util.EnumSet;
+
+/**
+ * @Author: PanChao
+ * @Description: WebApp初始化配置文件类
+ * @Date: Created in 9:20 2018/9/4
+ */
+public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+    @Override
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class[]{RootConfig.class};
+    }
+
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class[]{WebConfig.class};
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[]{"/"};
+    }
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        /*配置multipart的具体细节
+        临时文件路径
+        上传文件最大值
+        整个请求信息最大值
+        文件大小阈值
+         */
+        registration.setMultipartConfig(new MultipartConfigElement("F:/tmp/uploads", 2 * 1024 * 1024, 4 * 1024 * 1024, 0));
+    }
+
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        // 系统启动时注册filter
+        //注册characterEncodingFilter字符编码过滤器
+        FilterRegistration characterEncodingFilter = servletContext.addFilter("characterEncodingFilter", CharacterEncodingFilter.class);
+        // 设置init param, param可以从properties文件中读取或其他方式获取，提供一个想法
+        characterEncodingFilter.setInitParameter("encoding", "UTF-8");
+        characterEncodingFilter.setInitParameter("forceEncoding", "true");
+        characterEncodingFilter.addMappingForServletNames(EnumSet.allOf(DispatcherType.class), true, getServletName());
+//        characterEncodingFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class) , true, "/*");
+        super.onStartup(servletContext);
+    }
+}
