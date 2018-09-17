@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import top.pcstar.mongodbfileserver.entity.File;
+import top.pcstar.mongodbfileserver.entity.FileEntity;
 import top.pcstar.mongodbfileserver.service.FileService;
 import top.pcstar.mongodbfileserver.util.MD5Util;
 import top.pcstar.mongodbfileserver.vo.ResultModel;
@@ -31,13 +31,13 @@ public class FileController {
 
     @RequestMapping("/view/{id}")
     public ResponseEntity<Object> viewFile(@PathVariable String id) {
-        Optional<File> optionalFile = fileService.getFileById(id);
+        Optional<FileEntity> optionalFile = fileService.getFileById(id);
         if (!optionalFile.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .header(HttpHeaders.CONTENT_TYPE, "text/html;charset=UTF-8")
                     .body("文件不存在!");
         }
-        File file = optionalFile.get();
+        FileEntity file = optionalFile.get();
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "fileName=\"" + file.getName() + "\"")
                 .header(HttpHeaders.CONTENT_TYPE, file.getContentType())
@@ -48,13 +48,13 @@ public class FileController {
 
     @RequestMapping("/download/{id}")
     public ResponseEntity<Object> downloadFile(@PathVariable String id) {
-        Optional<File> optionalFile = fileService.getFileById(id);
+        Optional<FileEntity> optionalFile = fileService.getFileById(id);
         if (!optionalFile.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .header(HttpHeaders.CONTENT_TYPE, "text/html;charset=UTF-8")
                     .body("文件不存在!");
         }
-        File file = optionalFile.get();
+        FileEntity file = optionalFile.get();
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=\"" + file.getName() + "\"")
                 .header(HttpHeaders.CONTENT_TYPE, file.getContentType())
@@ -66,7 +66,7 @@ public class FileController {
     @PostMapping("/upload")
     public ModelAndView uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         try {
-            File saveFile = new File(file.getOriginalFilename(), file.getContentType(), file.getSize(), new Binary(file.getBytes()));
+            FileEntity saveFile = new FileEntity(file.getOriginalFilename(), file.getContentType(), file.getSize(), new Binary(file.getBytes()));
             saveFile.setMd5(MD5Util.getMD5(file.getInputStream()));
             fileService.saveFile(saveFile);
         } catch (IOException | NoSuchAlgorithmException e) {

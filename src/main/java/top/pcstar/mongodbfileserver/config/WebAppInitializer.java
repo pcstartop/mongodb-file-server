@@ -40,7 +40,29 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
+        // 系统启动时注册listener
+        addListener(servletContext);
         // 系统启动时注册filter
+        addFilter(servletContext);
+        // 系统启动时注册servlet
+        addServlet(servletContext);
+        super.onStartup(servletContext);
+    }
+
+    /**
+     * 注册listener
+     *
+     * @param servletContext
+     */
+    private void addListener(ServletContext servletContext) {
+    }
+
+    /**
+     * 注册filter
+     *
+     * @param servletContext
+     */
+    private void addFilter(ServletContext servletContext) {
         //注册characterEncodingFilter字符编码过滤器
         FilterRegistration characterEncodingFilter = servletContext.addFilter("characterEncodingFilter", CharacterEncodingFilter.class);
         // 设置init param, param可以从properties文件中读取或其他方式获取，提供一个想法
@@ -48,6 +70,13 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         characterEncodingFilter.setInitParameter("forceEncoding", "true");
         characterEncodingFilter.addMappingForServletNames(EnumSet.allOf(DispatcherType.class), true, getServletName());
 //        characterEncodingFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class) , true, "/*");
-        super.onStartup(servletContext);
+    }
+
+    /**
+     * 注册servlet
+     *
+     * @param servletContext
+     */
+    private void addServlet(ServletContext servletContext) {
     }
 }

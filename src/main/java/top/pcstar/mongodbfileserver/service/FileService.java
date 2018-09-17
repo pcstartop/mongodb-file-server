@@ -1,6 +1,6 @@
 package top.pcstar.mongodbfileserver.service;
 
-import top.pcstar.mongodbfileserver.entity.File;
+import top.pcstar.mongodbfileserver.entity.FileEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +16,7 @@ public interface FileService {
      * @param id
      * @return
      */
-    Optional<File> getFileById(String id);
+    Optional<FileEntity> getFileById(String id);
 
     /**
      * 分页查询文件信息
@@ -24,14 +24,14 @@ public interface FileService {
      * @param pageSize
      * @return
      */
-    List<File> listFilesByPage(int pageIndex, int pageSize);
+    List<FileEntity> listFilesByPage(int pageIndex, int pageSize);
 
     /**
      * 保存文件
      * @param file
      * @return
      */
-    File saveFile(File file);
+    FileEntity saveFile(FileEntity file);
 
     /**
      * 根据文件Id删除文件

@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import top.pcstar.mongodbfileserver.entity.File;
+import top.pcstar.mongodbfileserver.entity.FileEntity;
 import top.pcstar.mongodbfileserver.repository.FileRepository;
 import top.pcstar.mongodbfileserver.service.FileService;
 
@@ -24,20 +24,20 @@ public class FileServiceImpl implements FileService {
     private FileRepository fileRepository;
 
     @Override
-    public Optional<File> getFileById(String id) {
+    public Optional<FileEntity> getFileById(String id) {
         return fileRepository.findById(id);
     }
 
     @Override
-    public List<File> listFilesByPage(int pageIndex, int pageSize) {
+    public List<FileEntity> listFilesByPage(int pageIndex, int pageSize) {
         Sort sort = new Sort(Sort.Direction.DESC, "uploadDate");
         Pageable pageable = PageRequest.of(pageIndex, pageSize, sort);
-        Page<File> page = fileRepository.findAll(pageable);
+        Page<FileEntity> page = fileRepository.findAll(pageable);
         return page.getContent();
     }
 
     @Override
-    public File saveFile(File file) {
+    public FileEntity saveFile(FileEntity file) {
         return fileRepository.save(file);
     }
 

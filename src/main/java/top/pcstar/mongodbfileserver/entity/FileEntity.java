@@ -13,7 +13,7 @@ import java.util.Objects;
  * @Date: Created in 11:29 2018/9/4
  */
 @Document
-public class File {
+public class FileEntity {
     @Id //主键
     private String id;
     private String name; //文件名称
@@ -24,10 +24,10 @@ public class File {
     private Binary content; //文件内容
     private String path; //文件路径
 
-    public File() {
+    public FileEntity() {
     }
 
-    public File(String name, String contentType, long size, Binary content) {
+    public FileEntity(String name, String contentType, long size, Binary content) {
         this.name = name;
         this.contentType = contentType;
         this.size = size;
@@ -102,8 +102,8 @@ public class File {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof File)) return false;
-        File file = (File) o;
+        if (!(o instanceof FileEntity)) return false;
+        FileEntity file = (FileEntity) o;
         return getSize() == file.getSize() &&
                 Objects.equals(getId(), file.getId()) &&
                 Objects.equals(getName(), file.getName()) &&
@@ -122,7 +122,7 @@ public class File {
 
     @Override
     public String toString() {
-        return "File{" +
+        return "FileEntity{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", contentType='" + contentType + '\'' +
