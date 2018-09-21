@@ -2,6 +2,7 @@ package top.pcstar.mongodbfileserver.config;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import top.pcstar.mongodbfileserver.constants.ApplicationConstants;
 
 import javax.servlet.*;
 import java.util.EnumSet;
@@ -35,7 +36,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         整个请求信息最大值
         文件大小阈值
          */
-        registration.setMultipartConfig(new MultipartConfigElement("F:/tmp/uploads", 2 * 1024 * 1024, 4 * 1024 * 1024, 0));
+        registration.setMultipartConfig(new MultipartConfigElement(ApplicationConstants.TEMP_UPLOAD_FILE_PATH, 2 * 1024 * 1024, 4 * 1024 * 1024, 0));
     }
 
     @Override

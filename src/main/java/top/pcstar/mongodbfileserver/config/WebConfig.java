@@ -1,6 +1,5 @@
 package top.pcstar.mongodbfileserver.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import top.pcstar.mongodbfileserver.constants.ApplicationConstants;
 
 /**
  * @Author: PanChao
@@ -26,9 +26,6 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @ComponentScan(basePackages = "top.pcstar.mongodbfileserver.controller") //启用组建扫描
 @Import(RootConfig.class)
 public class WebConfig implements WebMvcConfigurer {
-    @Value("${mongodb-file-server.resources.static-locations}")
-    private String staticLocations;
-
     /**
      * 配置multipart解析器
      *
@@ -51,7 +48,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations(staticLocations.split(","));
+        registry.addResourceHandler(ApplicationConstants.STATIC_PATH_PATTERN).addResourceLocations(ApplicationConstants.STATIC_LOCATIONS.split(","));
     }
 
     /**

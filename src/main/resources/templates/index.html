@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <script type="text/javascript" src="/static/js/jquery/jquery-3.3.1.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/static/js/index.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery/jquery-3.3.1.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/index.js" charset="utf-8"></script>
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}">...</div>
@@ -53,7 +53,7 @@
             <td>
                 <a th:href="'view/'+${file.id}">查看</a>&nbsp;&nbsp;&nbsp;&nbsp;
                 <a th:href="'download/'+${file.id}">下载</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="javascript:;" th:href="javascript:deleteFile(${file.id});">删除</a>
+                <a th:href="'javascript:deleteFile(\''+${file.id}+'\');'">删除</a>
             </td>
         </tr>
         </tbody>
